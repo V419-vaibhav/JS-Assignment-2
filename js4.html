@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digit Product Sum Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            width: 450px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-bottom: 15px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #e8f5e9;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .calculation-steps {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        .result p {
+            margin: 8px 0;
+            font-size: 16px;
+        }
+
+        .result .highlight {
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .error {
+            background-color: #ffebee !important;
+        }
+
+        .error h3 {
+            color: #c62828 !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Digit Product Sum Calculator</h2>
+        
+        <div class="input-group">
+            <label>First Number (n1):</label>
+            <input type="number" id="n1" placeholder="Enter first number">
+        </div>
+        
+        <div class="input-group">
+            <label>Second Number (n2):</label>
+            <input type="number" id="n2" placeholder="Enter second number">
+        </div>
+        
+        <button onclick="calculateDigitProduct()">Calculate</button>
+        <button onclick="clearFields()" style="background-color: #757575;">Clear</button>
+        
+        <div class="result" id="result">
+            <h3>Calculation Result</h3>
+            <div class="calculation-steps" id="steps"></div>
+            <p>Final Result: <span class="highlight" id="output"></span></p>
+        </div>
+    </div>
+
+    <script>
+        function digitProductSum(n1, n2) {
+            // Convert numbers to strings
+            let str1 = n1.toString();
+            let str2 = n2.toString();
+            
+            // Pad the shorter string with zeros on the left
+            let maxLength = Math.max(str1.length, str2.length);
+            str1 = str1.padStart(maxLength, '0');
+            str2 = str2.padStart(maxLength, '0');
+            
+            let sum = 0;
+            let calculationSteps = [];
+            
+            // Calculate product of corresponding digits
+            for (let i = 0; i < maxLength; i++) {
+                let digit1 = parseInt(str1[i]);
+                let digit2 = parseInt(str2[i]);
+                let product = digit1 * digit2;
+                
+                sum += product;
+                
+                // Store step for display
+                calculationSteps.push(`(${digit1} × ${digit2}) = ${product}`);
+            }
+            
+            return {
+                sum: sum,
+                steps: calculationSteps,
+                paddedN1: str1,
+                paddedN2: str2
+            };
+        }
+
+        function calculateDigitProduct() {
+            let n1 = document.getElementById('n1').value;
+            let n2 = document.getElementById('n2').value;
+            let resultDiv = document.getElementById('result');
+            let stepsDiv = document.getElementById('steps');
+            let outputSpan = document.getElementById('output');
+            
+            // Validate input
+            if (n1 === '' || n2 === '') {
+                alert('Please enter both numbers!');
+                return;
+            }
+            
+            n1 = parseInt(n1);
+            n2 = parseInt(n2);
+            
+            if (isNaN(n1) || isNaN(n2)) {
+                alert('Please enter valid numbers!');
+                return;
+            }
+            
+            // Calculate using the function
+            let result = digitProductSum(n1, n2);
+            
+            // Display results
+            let stepsHTML = `<strong>Step-by-step Calculation:</strong><br><br>`;
+            stepsHTML += `Padded Numbers:<br>`;
+            stepsHTML += `n1 = ${result.paddedN1}<br>`;
+            stepsHTML += `n2 = ${result.paddedN2}<br><br>`;
+            stepsHTML += `Products:<br>`;
+            stepsHTML += result.steps.join(' + ') + '<br><br>';
+            stepsHTML += `<strong>Sum: ${result.sum}</strong>`;
+            
+            stepsDiv.innerHTML = stepsHTML;
+            outputSpan.textContent = result.sum;
+            
+            resultDiv.className = 'result show';
+        }
+
+        function clearFields() {
+            document.getElementById('n1').value = '';
+            document.getElementById('n2').value = '';
+            document.getElementById('result').className = 'result';
+        }
+    </script>
+
+</body>
+</html>

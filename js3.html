@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #e8f5e9;
+            border-radius: 5px;
+            display: none;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .result .highlight {
+            font-weight: bold;
+            color: #2e7d32;
+            font-size: 18px;
+        }
+
+        .error {
+            background-color: #ffebee !important;
+        }
+
+        .error .highlight {
+            color: #c62828 !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Tax Calculator</h2>
+        
+        <div class="input-group">
+            <label>Enter Your Salary:</label>
+            <input type="number" id="salary" placeholder="Enter salary amount">
+        </div>
+        
+        <button onclick="calculateTax()">Calculate Tax</button>
+        
+        <div class="result" id="result">
+            <p>Salary: <span class="highlight" id="salaryDisplay"></span></p>
+            <p>Tax Rate: <span class="highlight" id="taxRateDisplay"></span></p>
+            <p>Tax Amount: <span class="highlight" id="taxAmountDisplay"></span></p>
+            <p>Net Salary: <span class="highlight" id="netSalaryDisplay"></span></p>
+        </div>
+    </div>
+
+    <script>
+        function findTax(salary) {
+            let taxRate;
+            
+            // Using switch(true) to handle range conditions
+            switch(true) {
+                case (salary > 1500000):
+                    taxRate = 0.30; // 30% tax
+                    break;
+                case (salary > 1000000):
+                    taxRate = 0.20; // 20% tax
+                    break;
+                case (salary > 500000):
+                    taxRate = 0.10; // 10% tax
+                    break;
+                default:
+                    taxRate = 0; // 0% tax
+            }
+            
+            let taxAmount = salary * taxRate;
+            return taxAmount;
+        }
+
+        function calculateTax() {
+            let salary = parseFloat(document.getElementById('salary').value);
+            let resultDiv = document.getElementById('result');
+            
+            // Validate input
+            if (isNaN(salary) || salary < 0) {
+                alert('Please enter a valid salary amount!');
+                return;
+            }
+            
+            // Calculate tax using findTax function
+            let taxAmount = findTax(salary);
+            let taxRate;
+            
+            // Determine tax rate for display
+            switch(true) {
+                case (salary > 1500000):
+                    taxRate = '30%';
+                    break;
+                case (salary > 1000000):
+                    taxRate = '20%';
+                    break;
+                case (salary > 500000):
+                    taxRate = '10%';
+                    break;
+                default:
+                    taxRate = '0%';
+            }
+            
+            // Display results
+            document.getElementById('salaryDisplay').textContent = '₹' + salary.toLocaleString();
+            document.getElementById('taxRateDisplay').textContent = taxRate;
+            document.getElementById('taxAmountDisplay').textContent = '₹' + taxAmount.toLocaleString();
+            document.getElementById('netSalaryDisplay').textContent = '₹' + (salary - taxAmount).toLocaleString();
+            
+            resultDiv.className = 'result show';
+        }
+    </script>
+
+</body>
+</html>

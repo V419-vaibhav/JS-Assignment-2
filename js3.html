@@ -130,19 +130,19 @@
         function findTax(salary) {
             let taxRate;
             
-            // Using switch(true) to handle range conditions
+           
             switch(true) {
                 case (salary > 1500000):
-                    taxRate = 0.30; // 30% tax
+                    taxRate = 0.30; 
                     break;
                 case (salary > 1000000):
-                    taxRate = 0.20; // 20% tax
+                    taxRate = 0.20; 
                     break;
                 case (salary > 500000):
-                    taxRate = 0.10; // 10% tax
+                    taxRate = 0.10; 
                     break;
                 default:
-                    taxRate = 0; // 0% tax
+                    taxRate = 0;
             }
             
             let taxAmount = salary * taxRate;
@@ -153,17 +153,17 @@
             let salary = parseFloat(document.getElementById('salary').value);
             let resultDiv = document.getElementById('result');
             
-            // Validate input
+           
             if (isNaN(salary) || salary < 0) {
                 alert('Please enter a valid salary amount!');
                 return;
             }
             
-            // Calculate tax using findTax function
+     
             let taxAmount = findTax(salary);
             let taxRate;
             
-            // Determine tax rate for display
+        
             switch(true) {
                 case (salary > 1500000):
                     taxRate = '30%';
@@ -178,7 +178,7 @@
                     taxRate = '0%';
             }
             
-            // Display results
+          
             document.getElementById('salaryDisplay').textContent = '₹' + salary.toLocaleString();
             document.getElementById('taxRateDisplay').textContent = taxRate;
             document.getElementById('taxAmountDisplay').textContent = '₹' + taxAmount.toLocaleString();
@@ -189,4 +189,5 @@
     </script>
 
 </body>
+
 </html>

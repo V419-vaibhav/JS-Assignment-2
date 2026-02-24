@@ -148,11 +148,9 @@
 
     <script>
         function digitProductSum(n1, n2) {
-            // Convert numbers to strings
             let str1 = n1.toString();
             let str2 = n2.toString();
             
-            // Pad the shorter string with zeros on the left
             let maxLength = Math.max(str1.length, str2.length);
             str1 = str1.padStart(maxLength, '0');
             str2 = str2.padStart(maxLength, '0');
@@ -160,7 +158,6 @@
             let sum = 0;
             let calculationSteps = [];
             
-            // Calculate product of corresponding digits
             for (let i = 0; i < maxLength; i++) {
                 let digit1 = parseInt(str1[i]);
                 let digit2 = parseInt(str2[i]);
@@ -168,7 +165,6 @@
                 
                 sum += product;
                 
-                // Store step for display
                 calculationSteps.push(`(${digit1} × ${digit2}) = ${product}`);
             }
             
@@ -187,7 +183,6 @@
             let stepsDiv = document.getElementById('steps');
             let outputSpan = document.getElementById('output');
             
-            // Validate input
             if (n1 === '' || n2 === '') {
                 alert('Please enter both numbers!');
                 return;
@@ -201,10 +196,10 @@
                 return;
             }
             
-            // Calculate using the function
+
             let result = digitProductSum(n1, n2);
             
-            // Display results
+
             let stepsHTML = `<strong>Step-by-step Calculation:</strong><br><br>`;
             stepsHTML += `Padded Numbers:<br>`;
             stepsHTML += `n1 = ${result.paddedN1}<br>`;
@@ -227,4 +222,5 @@
     </script>
 
 </body>
+
 </html>
